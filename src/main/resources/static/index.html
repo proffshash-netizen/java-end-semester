@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoyaltyPoints | Retail Loyalty</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">LoyaltyPoints</div>
+    <nav class="nav" aria-label="Main navigation">
+        <button class="nav-link active" data-section="dashboard">Dashboard</button>
+        <button class="nav-link" data-section="customers">Customers</button>
+        <button class="nav-link" data-section="purchase">Purchase</button>
+        <button class="nav-link" data-section="redeem">Redeem Points</button>
+        <button class="nav-link" data-section="history">Points History</button>
+        <button class="nav-link" data-section="tiers">Tiers</button>
+    </nav>
+</header>
+
+<main class="page-shell">
+    <div id="global-message" class="message" role="status" aria-live="polite"></div>
+
+    <section id="dashboard" class="page-section active-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Retail loyalty management</p>
+                <h1>Dashboard</h1>
+                <p class="section-intro">A simple view of customers, purchases, and loyalty tiers.</p>
+            </div>
+        </div>
+        <div class="stats-grid">
+            <article class="stat-card"><span>Total Customers</span><strong id="total-customers">0</strong></article>
+            <article class="stat-card"><span>Total Purchases</span><strong id="total-purchases">0</strong></article>
+            <article class="stat-card"><span>Total Points Issued</span><strong id="total-points">0</strong></article>
+            <article class="stat-card"><span>Active Tiers</span><strong id="total-tiers">0</strong></article>
+        </div>
+        <div class="content-card">
+            <div class="card-heading"><h2>Tier Overview</h2><span class="muted">Based on lifetime points</span></div>
+            <div id="dashboard-tiers" class="tier-grid"><p class="loading">Loading...</p></div>
+        </div>
+    </section>
+
+    <section id="customers" class="page-section">
+        <div class="section-heading inline-heading"><div><p class="eyebrow">Customer records</p><h1>Customers</h1></div><button class="button" id="show-customer-form">+ Add Customer</button></div>
+        <div id="customer-form-panel" class="content-card form-panel hidden">
+            <div class="card-heading"><h2>New Customer</h2><button class="text-button" id="hide-customer-form">Close</button></div>
+            <form id="customer-form" class="form-grid">
+                <label>Name<input id="customer-name" name="name" type="text" required></label>
+                <label>Email<input id="customer-email" name="email" type="email" required></label>
+                <div class="form-actions"><button class="button" type="submit">Create Customer</button><p id="customer-message" class="inline-message"></p></div>
+            </form>
+        </div>
+        <div class="content-card table-card"><div class="card-heading"><h2>Customer List</h2><span id="customer-count" class="muted">0 customers</span></div><div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Available Points</th><th>Lifetime Points</th><th>Tier</th></tr></thead><tbody id="customers-table"><tr><td colspan="5" class="loading">Loading...</td></tr></tbody></table></div></div>
+    </section>
+
+    <section id="purchase" class="page-section">
+        <div class="section-heading"><p class="eyebrow">Earn loyalty points</p><h1>Purchase</h1><p class="section-intro">The backend calculates the discount and points earned.</p></div>
+        <div class="split-layout">
+            <div class="content-card"><h2>Record Purchase</h2><form id="purchase-form" class="form-grid single-column"><label>Customer<select id="purchase-customer" required><option value="">Select customer</option></select></label><label>Purchase Amount (₹)<input id="purchase-amount" type="number" min="0.01" step="0.01" required></label><div id="purchase-customer-info" class="info-box muted">Select a customer to view their current tier.</div><button class="button" type="submit">Make Purchase</button></form><p id="purchase-message" class="inline-message"></p></div>
+            <div id="purchase-result" class="content-card result-card hidden"><p class="eyebrow">Completed</p><h2>Purchase Successful</h2><dl class="result-list"><div><dt>Purchase Amount</dt><dd id="result-purchase"></dd></div><div><dt>Discount Applied</dt><dd id="result-discount" class="discount-text"></dd></div><div><dt>Final Amount</dt><dd id="result-final"></dd></div><div><dt>Points Earned</dt><dd id="result-points"></dd></div></dl></div>
+        </div>
+    </section>
+
+    <section id="redeem" class="page-section">
+        <div class="section-heading"><p class="eyebrow">Use available points</p><h1>Redeem Points</h1></div>
+        <div class="content-card narrow-card"><h2>Redeem Points</h2><form id="redeem-form" class="form-grid single-column"><label>Customer<select id="redeem-customer" required><option value="">Select customer</option></select></label><div id="redeem-available" class="info-box">Available Points: <strong>--</strong></div><label>Points to Redeem<input id="redeem-points" type="number" min="1" step="1" required></label><button class="button" type="submit">Redeem Points</button></form><p id="redeem-message" class="inline-message"></p></div>
+    </section>
+
+    <section id="history" class="page-section">
+        <div class="section-heading"><p class="eyebrow">Transaction records</p><h1>Points History</h1><p class="section-intro">Choose a customer to view their earned and redeemed points.</p></div>
+        <div class="content-card"><div class="history-toolbar"><label>Customer<select id="history-customer"><option value="">Select customer</option></select></label><span id="history-status" class="muted">No customer selected</span></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Type</th><th>Points</th><th>Description</th></tr></thead><tbody id="history-table"><tr><td colspan="5" class="muted">Select a customer to load history.</td></tr></tbody></table></div></div>
+    </section>
+
+    <section id="tiers" class="page-section">
+        <div class="section-heading"><p class="eyebrow">Program rules</p><h1>Tiers</h1><p class="section-intro">Tier levels are supplied by the loyalty service.</p></div>
+        <div id="tiers-list" class="tier-list"><p class="loading">Loading...</p></div>
+    </section>
+</main>
+<script src="/js/app.js"></script>
+</body>
+</html>
